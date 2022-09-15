@@ -2,7 +2,7 @@ import { inferQueryOutput } from "../utils/trpc";
 
 type FormOutput = inferQueryOutput<'forms.getAll'>[0]
 
-export const Form: React.FC<{
+export const FormInputs: React.FC<{
     form: FormOutput
 }> = ({form}) => {
     return (

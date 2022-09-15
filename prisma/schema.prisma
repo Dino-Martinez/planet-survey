@@ -62,19 +62,10 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
-
-enum Types {
-  text
-  number
-  date
-  email
-  password
-}
-
 model Input {
   id     String  @id @default(cuid())
   name   String
-  type   Types   @default(text)
+  type   String   @default("text")
   Form   Form?   @relation(fields: [formId], references: [id])
   formId String?
 }
@@ -83,5 +74,6 @@ model Form {
   id     String  @id @default(cuid())
   name   String
   description String?
+  slug String @unique
   inputs Input[]
 }
