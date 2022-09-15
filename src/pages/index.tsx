@@ -6,9 +6,9 @@ const Home: NextPage = () => {
 
   return (
       <>
-          <div className="w-full flex flex-col gap-6 justify-center items-center">
+          <div>
               <Link href="/create">
-                  <a>Create a Form</a>
+                  <a className="px-4 py-2 border rounded-md border-slate-100 hover:bg-sky-900">Create a Form</a>
               </Link>
           </div>
       </>

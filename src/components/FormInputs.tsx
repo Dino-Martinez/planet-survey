@@ -8,7 +8,7 @@ export const FormInputs: React.FC<{
     return (
         <>
             <form key={form.id}>
-                <h2 className="text-3xl mt-6 mb-2">{form.name}</h2>
+                <h2 className="mt-6 mb-2 text-3xl">{form.name}</h2>
                 {form.description && <h3 className="text-xl text-gray-600">{form.description}</h3>}
                 {form.inputs.map(input => {
                 return (
@@ -16,9 +16,9 @@ export const FormInputs: React.FC<{
                         key={input.id}
                         className="mt-2"
                     >
-                        <label className="text-2xl capitalize mr-3">{input.name}</label>
+                        <label className="mr-3 text-2xl capitalize">{input.name}</label>
                         <input
-                            className="border border-gray-500 rounded"
+                            className="bg-transparent border rounded-md border-slate-100"
                             type={input.type}
                         />
                     </p>

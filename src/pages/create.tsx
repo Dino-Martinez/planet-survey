@@ -54,24 +54,28 @@ const Create: NextPage = () => {
 
     return(
         <>
-            <div className="w-full flex flex-col gap-6 justify-center items-center">
-                <h1 className="text-5xl">Forms</h1>
+            <div className="flex flex-col items-center justify-center w-full gap-6">
+                <h1 className="text-5xl">Create a Form</h1>
                 {!mutation.isLoading && mutation.data ?
                     (
                         <>
-                            <h2>Your form has been created!</h2>
-                            <p>It can be accessed at <Link href={`/forms/${mutation.data.slug}`}><a>this location.</a></Link></p>
+                            <h2 className="text-3xl">Your form has been created!</h2>
+                            <p>It can be accessed at 
+                                <Link href={`/forms/${mutation.data.slug}`}>
+                                    <a className="text-2xl text-blue-400 hover:text-blue-600"> this location.</a>
+                                </Link>
+                            </p>
                         </>
                     ):(
                         <form
                             onSubmit={handleSubmit}
                             ref={parent}
-                            className="flex flex-col gap-2 justify-center items-center"
+                            className="flex flex-col items-center justify-center gap-2 "
                         >
-                            <div className="flex justify-between w-full">
+                            <div className="flex w-full">
                                 <label>Name your form:</label>
                                 <input
-                                    className="border border-gray-500 rounded ml-2"
+                                    className="ml-4 bg-transparent border rounded-md border-slate-100"
                                     type="text"
                                     value={name}
                                     onChange={e => setName(e.target.value)}
@@ -87,17 +91,17 @@ const Create: NextPage = () => {
                                     />
                                 )
                             )}
-                            <div className="flex justify-center gap-3 w-full">
+                            <div className="flex justify-center w-full gap-3">
                                 <button
                                     type="button"
                                     onClick={addInput}
-                                    className="border border-gray-500 rounded py-1 px-3 hover:bg-slate-300"
+                                    className="px-4 py-2 border rounded-md border-slate-100 hover:bg-sky-900"
                                 >
                                     Add an Input
                                 </button>
                                 <button
                                     type="submit"
-                                    className="border border-gray-500 rounded py-1 px-3 hover:bg-slate-300"
+                                    className="px-4 py-2 border rounded-md border-slate-100 hover:bg-sky-900"
                                 >
                                     Create form
                                 </button>
