@@ -62,18 +62,20 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
 model Input {
-  id     String  @id @default(cuid())
-  name   String
-  type   String   @default("text")
-  Form   Form?   @relation(fields: [formId], references: [id])
-  formId String?
+  id         String    @id @default(cuid())
+  name       String
+  type       String    @default("text")
+  value      String    @default("")
+  Form       Form?     @relation(fields: [formId], references: [id])
+  formId     String?
 }
 
 model Form {
-  id     String  @id @default(cuid())
-  name   String
+  id          String     @id @default(cuid())
+  name        String
   description String?
-  slug String @unique
-  inputs Input[]
+  slug        String     @unique
+  inputs      Input[]
 }

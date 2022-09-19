@@ -6,7 +6,7 @@ import {useAutoAnimate} from '@formkit/auto-animate/react';
 import Link from "next/link";
 
 type Input = {
-  id: number,
+  id: string,
   name: string,
   type: string
 }
@@ -27,7 +27,7 @@ const Create: NextPage = () => {
         setInputs(prev=>([
         ...prev,
         {
-            id: lastId,
+            id: '' + lastId,
             name: '',
             type: 'text'
         }
@@ -35,7 +35,7 @@ const Create: NextPage = () => {
         setLastId(lastId + 1);
     };
 
-    const refreshInput = (id:number, name:string, type:string) => {
+    const refreshInput = (id:string, name:string, type:string) => {
         setInputs(prev => ([
         ...prev.filter(input => input.id !== id),
         {
@@ -43,10 +43,10 @@ const Create: NextPage = () => {
             name,
             type
         }
-        ]).sort((a,b) => a.id - b.id));
+        ]).sort((a,b) => +a.id - +b.id));
     };
 
-    const removeInput = (id:number) => {
+    const removeInput = (id:string) => {
         setInputs(prev => ([
         ...prev.filter(input => input.id !== id)
         ]));

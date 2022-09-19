@@ -49,4 +49,19 @@ export const formsRouter = createRouter()
       });
       return form;
     }
+  })
+  .mutation("submitForm", {
+    input: z.object({
+        id: z.string(),
+        value: z.string()
+      }).array(),
+    async resolve({input}) {
+       input.forEach(async response => {
+        await prisma.input.update({
+          where: {id: response.id},
+          data: {value: response.value}
+        });
+      });
+      return;
+    }
   });
