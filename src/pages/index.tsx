@@ -11,7 +11,9 @@ const Home: NextPage = () => {
               <Link href="/create">
                   <a className="px-4 py-2 border rounded-md border-slate-100 hover:bg-sky-900">Create a Form</a>
               </Link>
+
               <p>OR</p>
+              
               <div>
                   <input
                       type="text"
@@ -20,6 +22,7 @@ const Home: NextPage = () => {
                       onChange={e => setSlug(e.target.value)}
                       className="bg-transparent border rounded-md border-slate-100"
                   />
+                  
                   <Link href={`/forms/${slug}`}>
                       <a className="ml-3 px-4 py-2 border rounded-md border-slate-100 hover:bg-sky-900">Search</a>
                   </Link>

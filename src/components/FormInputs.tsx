@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { inferQueryOutput } from "../utils/trpc";
+import { Button } from "./Button";
 import { Input } from "./Input";
 
 type FormOutput = inferQueryOutput<'forms.getAll'>[0]
@@ -12,7 +13,9 @@ export const FormInputs: React.FC<{
     onSubmit: (e:React.FormEvent) => void,
     setInputs:Dispatch<SetStateAction<Input[]>>
 }> = ({form, onSubmit, setInputs}) => {
+    
     const refreshInputs = (id:string, value: string) => {
+        console.log(id, value);
         setInputs(prev => ([
         ...prev.filter(input => input.id !== id),
         {
@@ -27,6 +30,7 @@ export const FormInputs: React.FC<{
             <form
                 key={form.id}
                 onSubmit={onSubmit}
+                className="flex flex-col justify-center gap-2"
             >
                 <h2 className="mt-6 mb-2 text-3xl">{form.name}</h2>
                 {form.description && <h3 className="text-xl text-gray-600">{form.description}</h3>}
@@ -34,18 +38,17 @@ export const FormInputs: React.FC<{
                 return (
                     <Input 
                         key={input.id}
-                        refresh={refreshInputs}
+                        handleBlur={refreshInputs}
                         id={input.id}
                         name={input.name}
-                        defaultType={input.type}
+                        type={input.type}
                     />
                 );
               })}
-                <button
-                    className="mt-4 px-4 py-2 border rounded-md border-slate-100 hover:bg-sky-900"
+                <Button
                     type="submit"
-                >Submit Response
-                </button>
+                    text="Submit Response"
+                />
             </form>
         </>
     );

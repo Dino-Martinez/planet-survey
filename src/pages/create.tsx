@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Input } from "../components/Input";
 import {useAutoAnimate} from '@formkit/auto-animate/react';
 import Link from "next/link";
+import { Button } from "../components/Button";
+import { RemoveableInput } from "../components/RemovableInput";
 
 type Input = {
   id: string,
@@ -56,10 +58,12 @@ const Create: NextPage = () => {
         <>
             <div className="flex flex-col items-center justify-center w-full gap-6">
                 <h1 className="text-5xl">Create a Form</h1>
+                
                 {!mutation.isLoading && mutation.data ?
                     (
                         <>
                             <h2 className="text-3xl">Your form has been created!</h2>
+                            
                             <p>It can be accessed at 
                                 <Link href={`/forms/${mutation.data.slug}`}>
                                     <a className="text-2xl text-blue-400 hover:text-blue-600"> this location.</a>
@@ -74,6 +78,7 @@ const Create: NextPage = () => {
                         >
                             <div className="flex w-full">
                                 <label>Name your form:</label>
+
                                 <input
                                     className="ml-4 bg-transparent border rounded-md border-slate-100"
                                     type="text"
@@ -83,7 +88,7 @@ const Create: NextPage = () => {
                             </div>
                             {inputs.map(input => 
                                 (
-                                    <Input
+                                    <RemoveableInput
                                         key={input.id}
                                         refresh={refreshInput}
                                         id={input.id}
@@ -92,19 +97,16 @@ const Create: NextPage = () => {
                                 )
                             )}
                             <div className="flex justify-center w-full gap-3">
-                                <button
+                                <Button
                                     type="button"
-                                    onClick={addInput}
-                                    className="px-4 py-2 border rounded-md border-slate-100 hover:bg-sky-900"
-                                >
-                                    Add an Input
-                                </button>
-                                <button
+                                    text="Add an Input"
+                                    handleClick={addInput}
+                                />
+
+                                <Button
                                     type="submit"
-                                    className="px-4 py-2 border rounded-md border-slate-100 hover:bg-sky-900"
-                                >
-                                    Create form
-                                </button>
+                                    text="Create form"
+                                />
                             </div>
                         </form>
                     )

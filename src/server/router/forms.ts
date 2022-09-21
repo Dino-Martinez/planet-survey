@@ -11,13 +11,15 @@ export const formsRouter = createRouter()
                 include: {inputs: true}
             }
         );
-        console.log(forms);
       return await forms;
     },
   })
   .query("getBySlug", {
-    input: z.string().trim().length(21),
+    input: z.string().trim().length(21).or(z.string().array()).or(z.undefined()),
     async resolve({input}) {
+      if (typeof input !== 'string')
+        return;
+
       const form = await prisma.form.findUnique({
         where: {slug: input},
         include: {inputs: true}
