@@ -1,57 +1,34 @@
 import type { NextPage } from "next";
 import { trpc } from "../utils/trpc";
-import { useState } from "react";
-import { Input } from "../components/Input";
+import { useReducer, useState } from "react";
 import {useAutoAnimate} from '@formkit/auto-animate/react';
 import Link from "next/link";
 import { Button } from "../components/Button";
 import { RemoveableInput } from "../components/RemovableInput";
+import { nanoid } from "nanoid";
+import { inputReducer } from "../reducers/inputsReducer";
+import { InputType } from "../types/inputs";
 
-type Input = {
-  id: string,
-  name: string,
-  type: string
-}
-
-const Create: NextPage = () => {
-    const [name, setName] = useState('');
-    const [inputs, setInputs] = useState<Array<Input>>([]);
-    const form = {name, inputs};
-    const [lastId, setLastId] = useState(0);
-    const [parent] = useAutoAnimate<HTMLFormElement>();
-    const mutation = trpc.useMutation(["forms.createForm"]);
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        mutation.mutate(form);
-    };
-
-    const addInput = () => {
-        setInputs(prev=>([
-        ...prev,
+const createInput = () => {
+    return  (
         {
-            id: '' + lastId,
+            id: nanoid(8),
             name: '',
             type: 'text'
-        }
-        ]));
-        setLastId(lastId + 1);
-    };
+        });
+};
 
-    const refreshInput = (id:string, name:string, type:string) => {
-        setInputs(prev => ([
-        ...prev.filter(input => input.id !== id),
-        {
-            id,
-            name,
-            type
-        }
-        ]).sort((a,b) => +a.id - +b.id));
-    };
+const Create: NextPage = () => {
+    const [parent] = useAutoAnimate<HTMLFormElement>();
+    const [name, setName] = useState('');
+    const [state, dispatch] = useReducer(inputReducer, {
+            inputs: []
+        });
+    const mutation = trpc.useMutation(["forms.createForm"]);
 
-    const removeInput = (id:string) => {
-        setInputs(prev => ([
-        ...prev.filter(input => input.id !== id)
-        ]));
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        mutation.mutate({name, inputs: state.inputs});
     };
 
     return(
@@ -86,13 +63,13 @@ const Create: NextPage = () => {
                                     onChange={e => setName(e.target.value)}
                                 />
                             </div>
-                            {inputs.map(input => 
+                            {state.inputs.map((input: InputType) => 
                                 (
                                     <RemoveableInput
                                         key={input.id}
-                                        refresh={refreshInput}
+                                        refresh={(value: string) => dispatch({type:"refresh", payload:{...input, name: value}})}
                                         id={input.id}
-                                        remove={removeInput}
+                                        remove={() => dispatch({type:"remove", payload:input})}
                                     />
                                 )
                             )}
@@ -100,7 +77,7 @@ const Create: NextPage = () => {
                                 <Button
                                     type="button"
                                     text="Add an Input"
-                                    handleClick={addInput}
+                                    handleClick={() => dispatch({type:"add", payload:createInput()})}
                                 />
 
                                 <Button

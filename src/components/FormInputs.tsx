@@ -15,7 +15,6 @@ export const FormInputs: React.FC<{
 }> = ({form, onSubmit, setInputs}) => {
     
     const refreshInputs = (id:string, value: string) => {
-        console.log(id, value);
         setInputs(prev => ([
         ...prev.filter(input => input.id !== id),
         {
