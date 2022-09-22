@@ -55,7 +55,7 @@ export const formsRouter = createRouter()
   .mutation("submitForm", {
     input: z.object({
         id: z.string(),
-        value: z.string()
+        value: z.string(),
       }).array(),
     async resolve({input}) {
        input.forEach(async response => {

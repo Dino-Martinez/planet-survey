@@ -1,7 +1,8 @@
 export type InputType = {
 id: string,
 name: string,
-type: string
+type: string,
+value: string
 }
 
 export type InputState = {

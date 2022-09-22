@@ -14,7 +14,8 @@ const createInput = () => {
         {
             id: nanoid(8),
             name: '',
-            type: 'text'
+            type: 'text',
+            value: ''
         });
 };
 
@@ -67,7 +68,7 @@ const Create: NextPage = () => {
                                 (
                                     <RemoveableInput
                                         key={input.id}
-                                        refresh={(value: string) => dispatch({type:"refresh", payload:{...input, name: value}})}
+                                        refresh={(value: string, type: string) => dispatch({type:"refresh", payload:{...input, name: value, type: type}})}
                                         id={input.id}
                                         remove={() => dispatch({type:"remove", payload:input})}
                                     />
@@ -77,7 +78,7 @@ const Create: NextPage = () => {
                                 <Button
                                     type="button"
                                     text="Add an Input"
-                                    handleClick={() => dispatch({type:"add", payload:createInput()})}
+                                    handleClick={() => dispatch({type:"add", payload: createInput()})}
                                 />
 
                                 <Button

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Input } from "./Input";
 
 export  const RemoveableInput: React.FC<{
-    refresh: (value: string) => void,
+    refresh: (value: string, type: string) => void,
     remove: () => void,
     name?: string,
     defaultType?:string,
@@ -13,7 +13,7 @@ export  const RemoveableInput: React.FC<{
 
     return (
         <div
-            onBlur={() => refresh(value)}
+            onBlur={() => refresh(value, type)}
         >
             <Input
                 name={name}
