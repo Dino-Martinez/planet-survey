@@ -1,7 +1,8 @@
+import clsx from "clsx";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useState } from "react";
-
+import {button} from "../styles/tw-components";
 const Home: NextPage = () => {
   const [slug, setSlug] = useState('');
 
@@ -9,7 +10,7 @@ const Home: NextPage = () => {
       <>
           <div className="flex items-center gap-5 justify-center">
               <Link href="/create">
-                  <a className="px-4 py-2 border rounded-md border-slate-100 hover:bg-sky-900">Create a Form</a>
+                  <a className={button}>Create a Form</a>
               </Link>
 
               <p>OR</p>
@@ -24,7 +25,7 @@ const Home: NextPage = () => {
                   />
                   
                   <Link href={`/forms/${slug}`}>
-                      <a className="ml-3 px-4 py-2 border rounded-md border-slate-100 hover:bg-sky-900">Search</a>
+                      <a className={clsx(button, "ml-3")}>Search</a>
                   </Link>
               </div>
           </div>

@@ -1,5 +1,5 @@
 import React from "react";
-
+import {button} from "../styles/tw-components";
 export const Button: React.FC<{
     text: string,
     type?: "button" | "submit" | "reset",
@@ -9,7 +9,7 @@ export const Button: React.FC<{
         <button
             type={type}
             onClick={handleClick}
-            className="px-4 py-2 border rounded-md border-slate-100 hover:bg-sky-900"
+            className={button}
         >
             {text}
         </button>

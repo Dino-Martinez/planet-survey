@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Input } from "./Input";
-
+import clsx from "clsx";
+import {button} from "../styles/tw-components";
 export  const RemoveableInput: React.FC<{
     refresh: (value: string, type: string) => void,
     remove: () => void,
@@ -33,7 +34,7 @@ export  const RemoveableInput: React.FC<{
                 <button
                     type="button"
                     onClick={() => remove()}
-                    className="px-4 py-0 my-2 ml-auto border rounded-md border-slate-100 hover:bg-sky-900 hover:text-red-500"
+                    className={clsx(button, "py-0 my-2 ml-auto hover:text-red-500")}
                 >Remove
                 </button>
             </div>
