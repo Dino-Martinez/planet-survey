@@ -18,7 +18,15 @@ const Form: NextPage = () => {
     
     const handleSubmit = (e:React.FormEvent) => {
         e.preventDefault();
-        mutation.mutate(state.inputs);
+        if (!form || !form.id)
+            return;
+        
+        mutation.mutate({
+            formId: form.id,
+            responses: state.inputs.map(input => {
+                return {value: input.value, name: input.name};
+            })
+        });
     };
 
     if (!slug)
@@ -38,7 +46,7 @@ const Form: NextPage = () => {
                         return (
                             <Input 
                                 key={input.id}
-                                handleBlur={() => dispatch({type: 'refresh', payload: input})}
+                                handleBlur={(id, value) => dispatch({type: 'refresh', payload: {...input, value}})}
                                 id={input.id}
                                 name={input.name}
                                 type={input.type}

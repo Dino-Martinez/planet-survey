@@ -27,6 +27,34 @@ export const formsRouter = createRouter()
       return form;
     }
   })
+  .query("getResponsesBySlug", {
+    input: z.string().trim().length(21).or(z.string().array()).or(z.undefined()),
+    async resolve({input}) {
+      if (typeof input !== 'string')
+              return;
+      
+      const form = await prisma.form.findUnique({
+        where: {slug: input},
+      });
+
+      if (!form)
+        return;
+
+      const responses = await prisma.response.findMany({
+        where: {formId: form.id},
+        orderBy: [
+          {
+            user: 'desc',
+          },
+          {
+            name: 'asc'
+          }
+      ]
+      });
+
+      return responses;
+    }
+  })
   .mutation("createForm", {
     input: z
     .object({
@@ -54,14 +82,22 @@ export const formsRouter = createRouter()
   })
   .mutation("submitForm", {
     input: z.object({
-        id: z.string(),
-        value: z.string(),
+      formId: z.string(),
+      responses: z.object({
+        name: z.string(),
+        value: z.string()
       }).array(),
+    }),
     async resolve({input}) {
-       input.forEach(async response => {
-        await prisma.input.update({
-          where: {id: response.id},
-          data: {value: response.value}
+      const user = nanoid();
+      input.responses.forEach(async response => {
+        await prisma.response.create({
+          data: {
+            formId: input.formId,
+            name: response.name,
+            user,
+            value: response.value
+          }
         });
       });
       return;
