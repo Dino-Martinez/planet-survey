@@ -18,5 +18,8 @@ export default defineNextConfig({
   i18n: {
     locales: ["en"],
     defaultLocale: "en"
+  },
+  images: {
+    domains: ["cdn.discordapp.com", "i.picsum.photos"]
   }
 });

@@ -2,23 +2,29 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
 import { nanoid } from "nanoid";
+import Image from "next/image";
 
 const Responses: NextPage = () => {
     const router = useRouter();
     const { slug } = router.query;
-    const {data: responses, isLoading} = trpc.useQuery(["forms.getResponsesBySlug", slug]);
+    const {data: formResponses, isLoading} = trpc.useQuery(["forms.getResponsesBySlug", slug]);
     if (!slug)
         return <h1>This form does not exist!</h1>;
-
     return (
         <>
-            {responses && !isLoading &&
+            {formResponses && !isLoading &&
                 <div className="flex flex-col gap-4">
-                    {responses.map(response => {
+                    {formResponses.map(formResponse => {
                         return (
                             <div key={nanoid()} >
-                                <h1>{response.name}</h1>
-                                <p>{response.value}</p>
+                                <Image
+                                    alt="profile picture"
+                                    src={formResponse.author.image ?? "/profile-picture.png"}
+                                    width={64}
+                                    height={64}
+                                />
+                                <h1>{formResponse.response.name}</h1>
+                                <p>{formResponse.response.value}</p>
                             </div>
                         );
                     })}
