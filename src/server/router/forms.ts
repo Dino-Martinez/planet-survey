@@ -2,6 +2,8 @@ import { createRouter } from "./context";
 import { prisma } from "../db/client";
 import { z } from "zod";
 import { nanoid } from "nanoid";
+import { InputResponse } from "@prisma/client";
+
 export const formsRouter = createRouter()
   .query("getAll", {
     async resolve() {
@@ -54,7 +56,7 @@ export const formsRouter = createRouter()
           }
         ],
         select: {
-          response: true,
+          responses: true,
           author: {
             select: {
               name: true,
@@ -122,21 +124,40 @@ export const formsRouter = createRouter()
         });
         userId = anonymous.id;
       }
-      input.responses.forEach(async response => {
-        const submittedResponse = await prisma.response.create({
+      const formUserResponse = await prisma.formUserResponse.create({
+        data: {
+          formId: input.formId,
+          userId: userId,
+        },
+        include: {
+          responses: true
+        }
+      });
+      
+      const submittedResponses: InputResponse[] = await Promise.all(input.responses.map(async response => {
+        const submittedResponse = await prisma.inputResponse.create({
           data: {
             name: response.name,
-            value: response.value
+            value: response.value,
+            formUserResponseId: formUserResponse.id
           }
         });
-        await prisma.formUserResponse.create({
-          data: {
-            formId: input.formId,
-            userId: userId,
-            responseId: submittedResponse.id 
+        return submittedResponse;
+      }));  
+
+      await prisma.formUserResponse.update({
+        where: {
+          id: formUserResponse.id
+        },
+        data: {
+          responses: {
+            createMany: {
+              data: [...formUserResponse.responses, ...submittedResponses]
+            }
           }
-        });
+        }
       });
+        
       return;
     }
   });

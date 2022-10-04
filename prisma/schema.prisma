@@ -85,19 +85,18 @@ model Form {
 }
 
 model FormUserResponse {
-  id         String   @id @default(cuid())
-  response   Response @relation(fields: [responseId], references: [id])
-  author     User     @relation(fields: [userId], references: [id])
-  form       Form     @relation(fields: [formId], references: [id])
+  id         String          @id @default(cuid())
+  responses  InputResponse[]
+  author     User            @relation(fields: [userId], references: [id])
+  form       Form            @relation(fields: [formId], references: [id])
   formId     String
   userId     String
-  responseId String   @unique
 }
 
-model Response {
+model InputResponse {
   id                 String            @id @default(cuid())
   name               String
   value              String            @default("")
-  FormUserResponse   FormUserResponse?
-  formUserResponseId String?
+  FormUserResponse   FormUserResponse @relation(fields: [formUserResponseId], references: [id])
+  formUserResponseId String
 }

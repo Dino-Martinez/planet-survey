@@ -15,6 +15,7 @@ const Responses: NextPage = () => {
             {formResponses && !isLoading &&
                 <div className="flex flex-col gap-4">
                     {formResponses.map(formResponse => {
+                        return formResponse.responses.map(response => {
                         return (
                             <div key={nanoid()} >
                                 <Image
@@ -23,10 +24,11 @@ const Responses: NextPage = () => {
                                     width={64}
                                     height={64}
                                 />
-                                <h1>{formResponse.response.name}</h1>
-                                <p>{formResponse.response.value}</p>
+                                <h1>{response.name}</h1>
+                                <p>{response.value}</p>
                             </div>
                         );
+                        });
                     })}
                 </div>
             }

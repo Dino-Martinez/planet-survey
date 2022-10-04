@@ -5,8 +5,8 @@ This project aims to offer a simple and easy solution to creating/distributing s
 ## TODO
 
 - replace authTest.tsx with an actual login solution
-- change db query to only populate one avatar per user 
-    - this is gonna be solved by having FormUserResponse include many Responses (which should be renamed to InputResponse)
+- fix weird bug where TRPC throws an error on submitForm (saying that formUserResponse.update() does not accept formUserResponseId, even though it's nested)
+    - NOTE: this code *works* and correctly stores the data in db, but throws a TRPC error on client
 - create some form of navbar 
 - make form creation the homepage (auth protected)
 - make forms themselves be only available via link (no navigation on-site)
