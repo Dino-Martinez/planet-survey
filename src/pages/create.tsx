@@ -27,7 +27,7 @@ const Create: NextPage = () => {
     const [state, dispatch] = useReducer(inputReducer, {
             inputs: []
         });
-    const mutation = trpc.useMutation(["forms.createForm"]);
+    const mutation = trpc.useMutation(["auth.createForm"]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
