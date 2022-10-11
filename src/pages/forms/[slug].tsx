@@ -14,7 +14,7 @@ const Form: NextPage = () => {
             inputs: []
         });
     const mutation = trpc.useMutation(["forms.submitForm"]);
-    const {data: form, isLoading} = trpc.useQuery(["forms.getBySlug", slug]);
+    const {data: form, isLoading, error} = trpc.useQuery(["forms.getBySlug", slug]);
     
     const handleSubmit = (e:React.FormEvent) => {
         e.preventDefault();
@@ -31,6 +31,18 @@ const Form: NextPage = () => {
 
     if (!slug)
         return <h1>This form does not exist!</h1>;
+
+    if (error)
+    {
+        console.error(error);
+        router.push('/');
+    }
+    
+    if (mutation.error)
+    {
+        console.error(error);
+        router.push('/');
+    }
 
     return (
         <>

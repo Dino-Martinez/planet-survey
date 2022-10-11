@@ -9,8 +9,9 @@ import Login from "../login";
 const Responses: NextPage = () => {
     const router = useRouter();
     const { slug } = router.query;
-    const {data: formResponses, isLoading} = trpc.useQuery(["auth.getResponsesBySlug", slug]);
+    const {data: formResponses, isLoading, error} = trpc.useQuery(["auth.getResponsesBySlug", slug]);
     const {status} = useSession();
+
     if (status === 'loading')
         return <h1>Loading...</h1>;
 
@@ -19,6 +20,12 @@ const Responses: NextPage = () => {
     
     if (!slug)
         return <h1>This form does not exist!</h1>;
+
+    if (error)
+    {
+        console.error(error);
+        router.push('/');
+    }
 
     return (
         <>

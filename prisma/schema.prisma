@@ -65,6 +65,15 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model ErrorLog {
+  id String @id @default(cuid())
+  code String
+  type String 
+  message String
+  stack String?
+  timestamp DateTime @default(now())
+}
+
 model Input {
   id     String  @id @default(cuid())
   name   String

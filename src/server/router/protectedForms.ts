@@ -2,20 +2,44 @@ import { createProtectedRouter } from "./context";
 import { prisma } from "../db/client";
 import { z } from "zod";
 import { nanoid } from "nanoid";
+import { TRPCError } from "@trpc/server";
 
 export const protectedFormRouter = createProtectedRouter()
     .query("getResponsesBySlug", {
     input: z.string().trim().length(21).or(z.string().array()).or(z.undefined()),
-    async resolve({input}) {
+    async resolve({input, ctx}) {
       if (typeof input !== 'string')
-              return;
-    
+      {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: `Incorrect input type. Expected type string, received type ${typeof input}`
+        });
+      }
+
       const form = await prisma.form.findUnique({
         where: {slug: input},
+        include: {
+          author: true
+        }
       });
 
       if (!form)
-        return;
+      {
+        throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: `No form was found with the given slug.`
+      });
+      }
+
+      if (form.author.id !== ctx.session.user.id)
+      {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: `The current user is not permitted to view this form. Only the form's author may view its results.`
+        });
+      }
+
+      console.log('FORM', form);
 
       const responses = await prisma.formUserResponse.findMany({
         where: {formId: form.id},
@@ -41,8 +65,6 @@ export const protectedFormRouter = createProtectedRouter()
           }
         }
       });
-
-      console.log(responses);
 
       return responses;
     }

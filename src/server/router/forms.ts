@@ -2,6 +2,7 @@ import { createRouter } from "./context";
 import { prisma } from "../db/client";
 import { z } from "zod";
 import { InputResponse } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 
 export const formsRouter = createRouter()
   .query("getAll", {
@@ -18,12 +19,24 @@ export const formsRouter = createRouter()
     input: z.string().trim().length(21).or(z.string().array()).or(z.undefined()),
     async resolve({input}) {
       if (typeof input !== 'string')
-        return;
-
+      {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: `Incorrect input type. Expected type string, received type ${typeof input}`
+        });
+      }
       const form = await prisma.form.findUnique({
         where: {slug: input},
         include: {inputs: true}
       });
+
+      if (!form)
+      {
+        throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: `No form was found with the given slug.`
+      });
+      }
       return form;
     }
   })
