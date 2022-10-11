@@ -8,7 +8,7 @@ const Home: NextPage = () => {
 
   return (
       <>
-          <div className="flex items-center gap-5 justify-center">
+          <div className="flex items-center justify-center gap-5">
               <Link href="/create">
                   <a className={button}>Create a Form</a>
               </Link>
