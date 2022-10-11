@@ -3,13 +3,23 @@ import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
 import { nanoid } from "nanoid";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
+import Login from "../login";
 
 const Responses: NextPage = () => {
     const router = useRouter();
     const { slug } = router.query;
     const {data: formResponses, isLoading} = trpc.useQuery(["forms.getResponsesBySlug", slug]);
+    const {status} = useSession();
+    if (status === 'loading')
+        return <h1>Loading...</h1>;
+
+    if (status === 'unauthenticated')
+        return <Login />;
+    
     if (!slug)
         return <h1>This form does not exist!</h1>;
+
     return (
         <>
             {formResponses && !isLoading &&

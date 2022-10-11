@@ -8,6 +8,8 @@ import { RemoveableInput } from "../components/RemovableInput";
 import { nanoid } from "nanoid";
 import { inputReducer } from "../reducers/inputsReducer";
 import { InputType } from "../types/inputs";
+import { useSession } from "next-auth/react";
+import Login from "./login";
 
 const createInput = () => {
     return  (
@@ -31,6 +33,13 @@ const Create: NextPage = () => {
         e.preventDefault();
         mutation.mutate({name, inputs: state.inputs});
     };
+
+    const {status} = useSession();
+    if (status === 'loading')
+        return <h1>Loading...</h1>;
+
+    if (status === 'unauthenticated')
+        return <Login />;
 
     return(
         <>
