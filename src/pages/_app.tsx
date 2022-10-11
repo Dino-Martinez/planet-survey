@@ -8,8 +8,7 @@ import superjson from "superjson";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
 import Head from "next/head";
-import {navLink} from "../styles/tw-components";
-import Link from "next/link";
+import { NavBar } from "../components/NavBar";
 const MyApp: AppType = ({
   Component,
   pageProps: { session, ...pageProps },
@@ -27,14 +26,7 @@ const MyApp: AppType = ({
                   href="/favicon.ico"
               />
           </Head>
-          <nav className="flex justify-center gap-6 py-4 border-b-2 bg-neutral-900 text-slate-100">
-              <Link href="/login">
-                  <a className={navLink}>Login</a>
-              </Link>
-              <Link href="/create">
-                  <a className={navLink}>Create a Form</a>
-              </Link>
-          </nav>
+          <NavBar />
           <main className="flex flex-col items-center justify-center max-w-full min-h-screen gap-6 bg-slate-900 text-slate-100">
               <Component {...pageProps} />
           </main>

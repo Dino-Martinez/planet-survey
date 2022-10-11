@@ -5,7 +5,6 @@ This project aims to offer a simple and easy solution to creating/distributing s
 ## TODO
 
 - refactor frontend route protection into a Component
-- create some form of navbar 
 - make form creation the homepage (auth protected)
 - make forms themselves be only available via link (no navigation on-site)
 - make form responses only viewable by the form author
