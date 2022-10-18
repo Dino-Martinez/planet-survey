@@ -20,6 +20,10 @@ export const inputReducer = (prev: InputState, action: InputAction) : InputState
             return {
                 inputs: [ ...prev.inputs.filter((input: InputType) => input.id !== action.payload.id)]
             };
+        case "reset":
+            return {
+                inputs: []
+            };
         default:
             return prev;
     }

@@ -4,7 +4,7 @@ This project aims to offer a simple and easy solution to creating/distributing s
 
 ## TODO
 
-- refactor frontend route protection into a Component
-- make form creation the homepage (auth protected)
+- implement headless UI
+- style fixes
 - fix weird bug where TRPC throws an error on submitForm (saying that formUserResponse.update() does not accept formUserResponseId, even though it's nested)
     - NOTE: this code *works* and correctly stores the data in db, but throws a TRPC error on client

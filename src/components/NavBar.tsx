@@ -17,8 +17,11 @@ export const NavBar:React.FC = () => {
                     }
                 </a>
             </Link>
-            <Link href="/create">
+            <Link href="/">
                 <a className={navLink}>Create a Form</a>
+            </Link>
+            <Link href="/about">
+                <a className={navLink}>About the Project</a>
             </Link>
             {session && session.user && 
                 <Image
